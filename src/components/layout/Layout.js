@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import Header from "./Header";
-import { Segment } from "semantic-ui-react";
 import "./layout.css";
 
 class DefaultLayout extends Component {
   render() {
     return (
       <React.Fragment>
-        <Header />
         <div className="layout">
-          {this.props.children}
+          <div className="layout-header">
+            <Header />
+          </div>
+          <div className="layout-body">{this.props.children}</div>
         </div>
       </React.Fragment>
     );
