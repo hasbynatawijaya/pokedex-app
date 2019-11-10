@@ -1,5 +1,5 @@
 import React from "react";
-import { Segment, Header, Divider, Statistic } from "semantic-ui-react";
+import { Segment, Header, Divider } from "semantic-ui-react";
 
 const PokeTypes = ({ pokemon }) => {
   const renderedList = pokemon.types.map(poke => {

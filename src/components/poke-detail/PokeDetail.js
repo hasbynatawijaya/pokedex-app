@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  Header,
-  Segment,
-  Divider,
-  Grid,
-  Image,
-  Statistic
-} from "semantic-ui-react";
+import { Header, Segment, Divider, Grid, Image } from "semantic-ui-react";
 import pokeDetail from "../../apis/pokeAPI";
 import PokeFunny from "./PokeFunny";
 import PokeInfo from "./PokeInfo";
