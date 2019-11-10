@@ -80,12 +80,24 @@ class PokeList extends Component {
   };
 
   handleRender() {
-    const { pokemon, error } = this.state;
+    const { pokemon, error, next } = this.state;
+
+    let loadMore = (
+      <div style={{ marginTop: "30px" }}>
+        <Button fluid color="yellow" onClick={this.getMorePokemon}>
+          Load more pokemon
+        </Button>
+      </div>
+    );
+
+    if (next === null) {
+      loadMore = null;
+    }
 
     if (_.isEmpty(pokemon) && !error) {
       return "loading...";
     } else if (_.isEmpty(pokemon) && error) {
-      return "error...";
+      return "Data not found";
     }
 
     return (
@@ -93,11 +105,7 @@ class PokeList extends Component {
         <Grid>
           <PokeCard pokemon={pokemon} />
         </Grid>
-        <div style={{ marginTop: "30px" }}>
-          <Button fluid color="yellow" onClick={this.getMorePokemon}>
-            Get more pokemon
-          </Button>
-        </div>
+        {loadMore}
       </div>
     );
   }
