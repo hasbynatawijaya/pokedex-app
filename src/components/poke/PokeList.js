@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import PokeCard from "./PokeCard";
 import PokeSearch from "./PokeSearch";
-import { Grid, Segment } from "semantic-ui-react";
+import { Grid, Segment, Button } from "semantic-ui-react";
 import pokelist from "../../apis/pokeAPI";
 import _ from "lodash";
 
 class PokeList extends Component {
-  state = { pokemon: [], error: false };
+  state = { pokemon: [], next: null, error: false };
 
   componentDidMount() {
     this.getPokemon("initial", "/pokemon");
@@ -19,6 +19,7 @@ class PokeList extends Component {
         if (loadType === "initial") {
           this.setState({
             pokemon: res.data.results,
+            next: res.data.next,
             error: false
           });
         } else {
@@ -32,14 +33,40 @@ class PokeList extends Component {
 
           this.setState({
             pokemon: pokemon,
-            error: false
+            error: false,
+            next: null
           });
         }
       })
       .catch(err => {
         this.setState({
           pokemon: [],
-          error: true
+          error: true,
+          next: null
+        });
+      });
+  };
+
+  getMorePokemon = () => {
+    const { next } = this.state;
+    const pokemon = [...this.state.pokemon];
+
+    let url = next.split("?")[1];
+
+    pokelist
+      .get(`/pokemon?${url}`, {})
+      .then(res => {
+        this.setState({
+          pokemon: pokemon.concat(res.data.results),
+          next: res.data.next,
+          error: false
+        });
+      })
+      .catch(err => {
+        this.setState({
+          pokemon: [],
+          error: true,
+          next: null
         });
       });
   };
@@ -62,9 +89,16 @@ class PokeList extends Component {
     }
 
     return (
-      <Grid>
-        <PokeCard pokemon={pokemon} />
-      </Grid>
+      <div>
+        <Grid>
+          <PokeCard pokemon={pokemon} />
+        </Grid>
+        <div style={{ marginTop: "30px" }}>
+          <Button fluid color="yellow" onClick={this.getMorePokemon}>
+            Get more pokemon
+          </Button>
+        </div>
+      </div>
     );
   }
 
