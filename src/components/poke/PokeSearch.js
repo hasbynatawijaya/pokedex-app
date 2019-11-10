@@ -21,10 +21,14 @@ class PokeSearch extends Component {
     filterType: ""
   };
 
+  timer = null;
+
   handleFilterPoke = (e, params) => {
     let value = e.target.value;
 
-    setTimeout(() => {
+    clearTimeout(this.timer);
+
+    this.timer = setTimeout(() => {
       this.props.handleFilterPoke(params, value);
     }, 1000);
   };
